@@ -60,18 +60,14 @@ fibonacci(n)
 plot(n,fibonacci(n))
 % fibo함수를 구현한 것 바탕으로 그래프그리기
 n = input('수열의 마지막 항');
-syms i;
-for i = 1: n;
+for i = 1 : n
 
       F(i)=fibo(i);
       plot(i, F(i))
      
 end
 
-% 1.6) 이산시간 k에 따른 개체 x의 증가모델은 x(k+1) = a*x(k)*(1-x(k))로 나타낼 수 있다.
-%      1<=k<=30의 범위에서 개체 Xk의 변화를 그래프로 나타내어라.
-%      단, X1 = 0.1, a = 2.69
-[k,x] = pmod(2.69, 0.1, 30);
-plot(k,x), xlabel('시간(k) '), ylabel('개체(x_k)'), title('개체증가모델')
+% 1.6)
+[k,x]
 
 
