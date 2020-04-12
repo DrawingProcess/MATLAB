@@ -4,7 +4,7 @@
 
 clear all
 
-n = -10:.1:10;
+n = -10:10;
 u1 = heaviside(n);
 u = exp(-0.15*n).*cos(0.2*pi*n).*u1;
 

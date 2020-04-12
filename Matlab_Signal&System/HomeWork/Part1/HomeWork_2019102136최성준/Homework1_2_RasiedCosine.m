@@ -4,7 +4,7 @@
 
 clear all
 
-n = -100:100;
+n = -100:.1:100;
 y = cos((0.1*pi*n) + 1);
 
 u1 = heaviside(n-10);

@@ -4,7 +4,7 @@
 
 clear all
 
-n = -5:.1:5;
+n = -5:5;
 
 impulse1 = n==2;
 impulse2 = n==0;

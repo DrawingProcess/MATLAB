@@ -4,7 +4,7 @@
 
 clear all
 
-n = -10:10;
+n = -10:.1:10;
 
 u1 = heaviside(n+5);
 u2 = heaviside(n+3);
