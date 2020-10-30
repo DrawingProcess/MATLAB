@@ -1,18 +1,25 @@
-%% HomeWork #2_1_2.34(b)
-% m[n]=x[n]*y[n]
-% oldparam = sympref('HeavisideAtOrigin',1);
-% x = heaviside(t-5) - heaviside(t+2);
-% y = heaviside(t-3) - 2*heaviside(t+1) + heaviside(t+5);
+%% HomeWork #2_1_2.34(c)
+% m[n]=x[n]*f[n]
 
 clear all
 
-x = [ones(1,7), zeros(1,3)];
-y = [zeros(1,2), ones(1,4), -ones(1,4)];
-m = conv(x, y);
+x = [zeros(1,4), ones(1,7), zeros(1,4)];
 
-t = -10:1:8;
+t = -5:1:5;
+for n = -5:1:5
+    if abs(n) <= 5
+        f_(n+6) = n;
+    else
+        f_(n+6) = 0;
+    end
+end
+f__ = ones(1,11);
+f = f_.*f__;
+m = conv(x, f);
+
+t = -9:1:15;
 stem(t, m)
 xlabel('n')
-ylabel('m[n]=x[n]*y[n]')
-title('HomeWork #2-1-2.34(b)    m[n]=x[n]*y[n]')
-axis([-10 7 -4 4])
+ylabel('m[n]=x[n]*f[n]')
+title('HomeWork #2-1-2.34(c) m[n]=x[n]*f[n]')
+axis([-8 15 -20 20])

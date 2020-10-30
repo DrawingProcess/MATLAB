@@ -1,15 +1,23 @@
-%% HomeWork #2_1_2.34(e)
-% m[n]=y[n]*z[n]
+%% HomeWork #2_1_2.34(g)
+% m[n]=y[n]*w[n]
 
 clear all
 
-y = [ones(1,4), -ones(1,4), zeros(1,5)];
-z = [zeros(1,3), ones(1,4), 2*ones(1,5)];
-m = conv(y, z);
+y = [zeros(1,2), ones(1,4), -ones(1,4), zeros(1,2)];
+t = -10:1:10;
 
-t = -6:1:17;
+for n = -4:1:4
+    if abs(n) <= 4
+        w(n+5) = 3 - abs(n);
+    else
+        w(n+5) = 0;
+    end
+end
+m = conv(y, w);
+
+t = -9:1:10;
 stem(t, m)
 xlabel('n')
-ylabel('m[n]=y[n]*z[n]')
-title('HomeWork #2-1-2.34(e)    m[n]=y[n]*z[n]')
-axis([-5 15 -8 4])
+ylabel('m[n]=y[n]*w[n]')
+title('HomeWork #2-1-2.34(g)    m[n]=y[n]*w[n]')
+axis([-10 10 -10 10])
