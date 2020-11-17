@@ -49,12 +49,12 @@ for i = 1:m
 	% TODO: Use the current estimate of the landmark pose
 	% to compute the corresponding expected measurement in expectedZ:
     delta = [mu(landmarkId * 2 + 2) - mu(1); mu(landmarkId * 2 + 3) - mu(2)];
-    q = delta' * delta;
+    q = transpose(delta) * delta;
     % expectedZ = h(u_t)
     expectedZ(2*i-1 : 2*i) = [sqrt(q); normalize_angle(atan2(delta(2), delta(1)) - mu(3))]; % expectedZ의 bearing부분 normalize_angle해줘야 함
 
     % TODO: Compute the Jacobian Hi of the measurement function h for this observation
-    p = length(mu);
+    p = length(mu); %scala (length of mu)
 	hi = 1/q * [-sqrt(q)*delta(1),  -sqrt(q)*delta(2),  0,  sqrt(q)*delta(1),   sqrt(q)*delta(2);
                 delta(2),           -delta(1),          -q, -delta(2),          delta(1)];
     Fx = zeros(5,p);
@@ -63,7 +63,8 @@ for i = 1:m
     Hi = hi * Fx;
     
 	% Augment H with the new Hi
-	H = [H;Hi];	
+	H = [H;Hi];	% for문마다 2행씩 증가. Hi를 밑에 계속 붙임.(Hi => 2 by 2N+3)
+    size(H)
 end
 
 % TODO: Construct the sensor noise matrix Q
