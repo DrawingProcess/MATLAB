@@ -3,6 +3,10 @@ function l=prob_to_log_odds(p)
 % p could be a scalar or a matrix.
 
 % TODO: compute l.
-l = log(p/(1-p));
-
+l = zeros(size(p,1), size(p,2));
+for i=size(p,1)
+    for j=size(p,2)
+        l(i, j) = log(p(i, j) / (1 - p(i, j)));
+    end
+end
 end

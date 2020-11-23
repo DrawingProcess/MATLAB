@@ -62,11 +62,6 @@ for i=1:size(freeCells,2)
 end
 
 %TODO: update the log odds values in mapUpdate for each laser endpoint according to probOcc.
-for i=1:size(laserEndPntsMapFrame,2)
-    X=
-    Y=
-    mapUpdate(X,Y) = prob_to_log_odds(probOcc);
-end
 
 
 end

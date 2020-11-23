@@ -6,7 +6,7 @@ function [pntsMap] = world_to_map_coordinates(pntsWorld, gridSize, offset)
 % when converting to map coordinates.
 % pntsMap is a 2xN matrix containing the corresponding points in map coordinates.
 
-% TODO: compute pntsMap
+% TODO: compute pntsMap(floor: 소수점 버림(자연수형), pntsWorld: 2 by N)
 pntsMap = floor((pntsWorld - repmat(offset,1,size(pntsWorld,2)))./gridSize);
 
 end
