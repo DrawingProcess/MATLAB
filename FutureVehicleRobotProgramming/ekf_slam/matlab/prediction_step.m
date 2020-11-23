@@ -20,6 +20,9 @@ p = length(mu); %2N + 3
 Fx = zeros(3,p);
 Fx(1,1) = 1; Fx(2,2) = 1; Fx(3,3) = 1;
 G = eye(p) + transpose(Fx) * Gx * Fx;
+% solution
+% Gx = [zeros(3,2), [-u.t*sin(mu(3)+u.r1); u.t*cos(mu(3)+u.r1); 0]];
+% G = [Gx zeros(3, p-3); zeros(p-3, 3) eye(p-3, p-3)]
 
 % Motion noise
 motionNoise = 0.1;

@@ -20,7 +20,7 @@ m = size(z, 2); % measurements per time(z)
 % ExpectedZ: vectorized form of all expected measurements in the same form.
 % They are initialized here and should be filled out in the for loop below
 Z = zeros(m*2, 1); % struct to vector -> 측정값
-expectedZ = zeros(m*2, 1); % -> 기대값
+expectedZ = zeros(m*2, 1); % -> 기대값(기대되는 observation값)
 
 % Iterate over the measurements and compute the H matrix
 % (stacked Jacobian blocks of the measurement function)
@@ -49,12 +49,14 @@ for i = 1:m
 	% TODO: Use the current estimate of the landmark pose
 	% to compute the corresponding expected measurement in expectedZ:
     delta = [mu(landmarkId * 2 + 2) - mu(1); mu(landmarkId * 2 + 3) - mu(2)];
-    q = transpose(delta) * delta;
+    q = transpose(delta) * delta; % scala
     % expectedZ = h(u_t)
     expectedZ(2*i-1 : 2*i) = [sqrt(q); normalize_angle(atan2(delta(2), delta(1)) - mu(3))]; % expectedZ의 bearing부분 normalize_angle해줘야 함
-
+    % expectedZ(2*i-1) = sqrt(q);
+    % expectedZ(2*i)= normalize_angle(atan2(delta(2), delta(1)) - mu(3));
+    
     % TODO: Compute the Jacobian Hi of the measurement function h for this observation
-    p = length(mu); %scala (length of mu)
+    p = length(mu); % (= size(mu,1)) -> scala (length of mu)
 	hi = 1/q * [-sqrt(q)*delta(1),  -sqrt(q)*delta(2),  0,  sqrt(q)*delta(1),   sqrt(q)*delta(2);
                 delta(2),           -delta(1),          -q, -delta(2),          delta(1)];
     Fx = zeros(5,p);
@@ -64,7 +66,7 @@ for i = 1:m
     
 	% Augment H with the new Hi
 	H = [H;Hi];	% for문마다 2행씩 증가. Hi를 밑에 계속 붙임.(Hi => 2 by 2N+3)
-    size(H)
+    % size(H)
 end
 
 % TODO: Construct the sensor noise matrix Q
@@ -73,6 +75,7 @@ Q = sensorNoise * eye(2*m);
 
 % TODO: Compute the Kalman gain
 K = sigma * transpose(H) * inv(H*sigma*transpose(H) + Q);
+% K = sigma * H' / (H*sigma*transpose(H) + Q);
 
 % TODO: Compute the difference between the expected and recorded measurements.
 % Remember to normalize the bearings after subtracting!
@@ -83,4 +86,5 @@ delZ = normalize_all_bearings(Z-expectedZ);
 % Normalize theta in the robot pose.
 mu = mu + K * delZ;
 sigma = (eye(p) - K * H) * sigma;
+
 end
