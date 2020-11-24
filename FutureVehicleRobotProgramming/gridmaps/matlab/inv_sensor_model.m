@@ -46,11 +46,10 @@ freeCells = [];
 % You only need the X and Y outputs of this function.
 for sc=1:size(laserEndPntsMapFrame,2)
     %TODO: compute the XY map coordinates of the free cells along the laser beam ending in laserEndPntsMapFrame(:,sc)
-    [X,Y] = bresenham2([robPoseMapFrame(2*sc-1), robPoseMapFrame(2*sc); laserEndPntsMapFrame(1), laserEndPntsMapFrame(2)]);
+    [X,Y] = bresenham2([robPoseMapFrame(1), robPoseMapFrame(2); laserEndPntsMapFrame(1), laserEndPntsMapFrame(2)]); % -> 두 점사이의 직선에 해당하는 점들을 모두 반환
 
     %TODO: add them to freeCells
     freeCells = [freeCells,[X;Y]];
-
 end
 
 
@@ -63,10 +62,8 @@ end
 
 %TODO: update the log odds values in mapUpdate for each laser endpoint according to probOcc.
 for i=1:size(laserEndPntsMapFrame,2)
-    X = freeCells(1, i);
-    Y = freeCells(2, i);
+    X = laserEndPntsMapFrame(1, i);
+    Y = laserEndPntsMapFrame(2, i);
     mapUpdate(X,Y) = prob_to_log_odds(probOcc);
 end
-
-
 end
