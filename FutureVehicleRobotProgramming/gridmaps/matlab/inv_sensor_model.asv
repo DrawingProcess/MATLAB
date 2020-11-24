@@ -24,7 +24,7 @@ mapUpdate = zeros(size(map));
 robTrans = v2t(robPose);
 
 % TODO: compute robPoseMapFrame. Use your world_to_map_coordinates implementation.
-robPoseMapFrame = world_to_map_coordinates(robTrans, gridSize, probFree);
+robPoseMapFrame = world_to_map_coordinates([robPose(1);robPose(2)], gridSize, offset);
 
 % Compute the Cartesian coordinates of the laser beam endpoints.
 % Set the third argument to 'true' to use only half the beams for speeding up the algorithm when debugging.
@@ -33,7 +33,7 @@ laserEndPnts = robotlaser_as_cartesian(scan, 30, false);
 % Compute the endpoints of the laser beams in the world coordinates frame.
 laserEndPnts = robTrans*laserEndPnts;
 % TODO: compute laserEndPntsMapFrame from laserEndPnts. Use your world_to_map_coordinates implementation.
-laserEndPntsMapFrame = world_to_map_coordinates(laserEndPnts, gridSize, probOcc);
+laserEndPntsMapFrame = world_to_map_coordinates([laserEndPnts(1);laserEndPnts(2)], gridSize, offset);
 
 % freeCells are the map coordinates of the cells through which the laser beams pass.
 freeCells = [];
@@ -42,14 +42,14 @@ freeCells = [];
 % Use the bresenham method available to you in tools for computing the X and Y
 % coordinates of the points that lie on a line.
 % Example use for a line between points p1 and p2:
-% [X,Y] = bresenham(map,[p1_x, p1_y; p2_x, p2_y]);
+% [X,Y] = bresenham(map,[p1_x, p1_y; p2_x, p2_y]); -> bresenham2
 % You only need the X and Y outputs of this function.
 for sc=1:size(laserEndPntsMapFrame,2)
-        %TODO: compute the XY map coordinates of the free cells along the laser beam ending in laserEndPntsMapFrame(:,sc)
+    %TODO: compute the XY map coordinates of the free cells along the laser beam ending in laserEndPntsMapFrame(:,sc)
+    [X,Y] = bresenham2(map,[robPoseMapFrame(2*sc-1), robPoseMapFrame(2*sc); laserEndPntsMapFrame(1), laserEndPntsMapFrame(2)]);
 
-
-        %TODO: add them to freeCells
-
+    %TODO: add them to freeCells
+    freeCells = [freeCells,[X;Y]];
 
 end
 
@@ -62,6 +62,11 @@ for i=1:size(freeCells,2)
 end
 
 %TODO: update the log odds values in mapUpdate for each laser endpoint according to probOcc.
+for i=1:size(laserEndPntsMapFrame,2)
+    X=
+    Y=
+    mapUpdate(X,Y) = prob_to_log_odds(probOcc);
+end
 
 
 end
