@@ -24,7 +24,7 @@ mapUpdate = zeros(size(map));
 robTrans = v2t(robPose);
 
 % TODO: compute robPoseMapFrame. Use your world_to_map_coordinates implementation.
-robPoseMapFrame = world_to_map_coordinates([robPose(1);robPose(2)], gridSize, offset);
+robPoseMapFrame = world_to_map_coordinates([robTrans(1);robTrans(2)], gridSize, offset);
 
 % Compute the Cartesian coordinates of the laser beam endpoints.
 % Set the third argument to 'true' to use only half the beams for speeding up the algorithm when debugging.
