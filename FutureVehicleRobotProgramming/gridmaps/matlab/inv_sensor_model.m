@@ -24,7 +24,9 @@ mapUpdate = zeros(size(map));
 robTrans = v2t(robPose);
 
 % TODO: compute robPoseMapFrame. Use your world_to_map_coordinates implementation.
-robPoseMapFrame = world_to_map_coordinates([robTrans(1);robTrans(2)], gridSize, offset);
+robPoseMapFrame = zeros(size(robPose));
+robPoseMapFrame(1:2) = world_to_map_coordinates(robPose(1:2), gridSize, offset);
+robPoseMapFrame(3) = robPose(3);
 
 % Compute the Cartesian coordinates of the laser beam endpoints.
 % Set the third argument to 'true' to use only half the beams for speeding up the algorithm when debugging.
@@ -33,7 +35,9 @@ laserEndPnts = robotlaser_as_cartesian(scan, 30, false);
 % Compute the endpoints of the laser beams in the world coordinates frame.
 laserEndPnts = robTrans*laserEndPnts;
 % TODO: compute laserEndPntsMapFrame from laserEndPnts. Use your world_to_map_coordinates implementation.
-laserEndPntsMapFrame = world_to_map_coordinates([laserEndPnts(1);laserEndPnts(2)], gridSize, offset);
+laserEndPntsMapFrame = world_to_map_coordinates(laserEndPnts(1:2,:), gridSize, offset);
+% laserEndPntsMapFrame(1,:) = world_to_map_coordinates(laserEndPnts(1,:), gridSize, offset);
+% laserEndPntsMapFrame(2,:) = world_to_map_coordinates(laserEndPnts(2,:), gridSize, offset);
 
 % freeCells are the map coordinates of the cells through which the laser beams pass.
 freeCells = [];
@@ -46,7 +50,7 @@ freeCells = [];
 % You only need the X and Y outputs of this function.
 for sc=1:size(laserEndPntsMapFrame,2)
     %TODO: compute the XY map coordinates of the free cells along the laser beam ending in laserEndPntsMapFrame(:,sc)
-    [X,Y] = bresenham2([robPoseMapFrame(1), robPoseMapFrame(2); laserEndPntsMapFrame(1), laserEndPntsMapFrame(2)]); % -> 두 점사이의 직선에 해당하는 점들을 모두 반환
+    [X,Y] = bresenham2([robPoseMapFrame(1), robPoseMapFrame(2); laserEndPntsMapFrame(1,sc), laserEndPntsMapFrame(2,sc)]); % -> 두 점사이의 직선에 해당하는 점들을 모두 반환
 
     %TODO: add them to freeCells
     freeCells = [freeCells,[X;Y]];
