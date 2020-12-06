@@ -57,7 +57,7 @@ for i = 1:numParticles
       % TODO: compute the error between the z and expectedZ (remember to normalize the angle)
       delZ = zeros(2,1);
       delZ(1) = z(j).range-expectedZ(1);
-      delZ(2) = normalize(z(j).bearing-expectedZ(2));
+      delZ(2) = normalize_angle(z(j).bearing-expectedZ(2));
       % TODO: update the mean and covariance of the EKF for this landmark
       particles(i).landmarks(l).mu = particles(i).landmarks(l).mu + K * delZ;
 	  particles(i).landmarks(l).sigma = (eye(2) - K * H) * particles(i).landmarks(l).sigma;
