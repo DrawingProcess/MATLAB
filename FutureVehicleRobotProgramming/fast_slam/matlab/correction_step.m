@@ -63,7 +63,7 @@ for i = 1:numParticles
 	  particles(i).landmarks(l).sigma = (eye(2) - K * H) * particles(i).landmarks(l).sigma;
       % TODO: compute the likelihood of this observation, multiply with the former weight
       %       to account for observing several features in one time step
-      particles(i).weight = abs(2*pi*Q)^(-1*2)*exp(-1/2 * delZ' * inv(Q) * delZ);
+      particles(i).weight = abs(2*pi*Q)^(-1*2) * exp(-1/2 * delZ' * inv(Q) * delZ);
     end
 
   end % measurement loop
